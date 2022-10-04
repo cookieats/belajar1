@@ -1,3 +1,4 @@
+import 'package:belajar1/utama.dart';
 import 'package:flutter/material.dart';
 
 class login extends StatelessWidget {
@@ -69,7 +70,16 @@ class login extends StatelessWidget {
                         primary: Colors.blue,
                         fixedSize: Size(200, 35),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                      builder: (context) => Utama(),
+                        )
+                        
+                    
+                    );
+                      },
                       child: Text('login'),
                     ),
                   ),
@@ -87,7 +97,7 @@ class login extends StatelessWidget {
                 ]),
               ),
             SizedBox(
-              height: 280,
+              height: 50,
             ),
              Container(
               height: 47,
