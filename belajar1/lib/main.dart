@@ -11,13 +11,18 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  static final List<Widget> _pages = <Widget>[
+    // Main Menu
+    login(),
+    Utama(),
+  ];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
        title: 'DRAP',
       theme: ThemeData.light(),
-      home: Utama(),
+      home: login(),
     );
   }
 }
