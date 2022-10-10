@@ -1,10 +1,19 @@
-import 'package:belajar1/login.dart';
-import 'package:belajar1/utama.dart';
+import 'package:belajar1/pages/login.dart';
+import 'package:belajar1/pages/transfer.dart';
+import 'package:belajar1/pages/utama.dart';
 import 'package:flutter/material.dart';
-import 'package:footer/footer.dart';
-import 'package:footer/footer_view.dart';
 
-void main() {
+import 'package:hive_flutter/hive_flutter.dart';
+
+
+void main() async {
+  await Hive.initFlutter();
+
+
+// open box
+var box = await Hive.openBox('mybox');
+
+
   runApp(const MyApp());
 }
 
@@ -15,6 +24,7 @@ class MyApp extends StatelessWidget {
     // Main Menu
     login(),
     Utama(),
+    Transfer(),
   ];
   @override
   Widget build(BuildContext context) {

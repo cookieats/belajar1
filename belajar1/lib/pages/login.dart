@@ -1,4 +1,4 @@
-import 'package:belajar1/utama.dart';
+import 'package:belajar1/pages/utama.dart';
 import 'package:flutter/material.dart';
 
 class login extends StatefulWidget {

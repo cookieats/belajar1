@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 class Menu extends StatelessWidget {
   final IconData icon;
   final String text;
-  
-  const Menu({Key? key, 
+  VoidCallback onTap;
+  Menu({Key? key, 
   required this.icon,
-  required this.text}) 
+  required this.text,
+  required this.onTap}) 
   : super(key: key);
 
   @override
@@ -21,7 +22,7 @@ class Menu extends StatelessWidget {
       // padding: EdgeInsets.all(7),
       // margin: EdgeInsets.all(10),
       child: InkWell(
-        onTap: (){},
+        onTap: onTap,
         child: Card(
           color: Color.fromARGB(255, 223, 220, 220),
           child: Column(

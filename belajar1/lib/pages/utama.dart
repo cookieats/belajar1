@@ -1,5 +1,6 @@
+import 'package:belajar1/pages/transfer.dart';
 import 'package:flutter/material.dart';
-import 'package:belajar1/menu.dart';
+import 'package:belajar1/widget/menu.dart';
 
 class Utama extends StatelessWidget {
   const Utama({Key? key}) : super(key: key);
@@ -134,12 +135,22 @@ class Utama extends StatelessWidget {
             spacing: 27.0,
             runSpacing: 10.0,
             children: [
-              Menu(icon: Icons.wallet, text: "Saldo"),
-              Menu(icon: Icons.money, text: "Transfer"),
-              Menu(icon: Icons.savings, text: "Deposito"),
-              Menu(icon: Icons.credit_card_outlined, text: "Payment"),
-              Menu(icon: Icons.monetization_on_outlined, text: "Pinjaman"),
-              Menu(icon: Icons.add_chart, text: "Mutasi"),
+              Menu(icon: Icons.wallet, text: "Saldo", onTap: (){},),
+              Menu(
+               icon: Icons.money,
+               text: "Transfer",
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) => Transfer()
+                    )
+                  );
+                              },),
+              Menu(icon: Icons.savings, text: "Deposito", onTap: (){},),
+              Menu(icon: Icons.credit_card_outlined, text: "Payment", onTap: (){},),
+              Menu(icon: Icons.monetization_on_outlined, text: "Pinjaman", onTap: (){},),
+              Menu(icon: Icons.add_chart, text: "Mutasi", onTap: (){},),
             ],
           ),
         ),
