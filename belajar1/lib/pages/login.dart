@@ -4,6 +4,7 @@ import 'package:belajar1/routes/route.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_value.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../service/list_user_service.dart';
 
@@ -17,6 +18,79 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  // bool isLogin = false;
+  // String? name ;
+  // String? password ;
+  @override
+  void saveLogin() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString("username", usernameController.text);
+    pref.setString("password", passwordController.text);
+
+    String? namaUser = pref.getString("username");
+    String? pass = pref.getString("password");
+    if (usernameController.text == " " && passwordController.text == "") {
+      return print("anda tidak bisa masuk");
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Utama(name: namaUser)
+              
+            ),
+          );
+    }
+
+    // setState(() {
+    //   name = usernameController.text;
+    //   password = passwordController.text;
+    // });
+  }
+  // Future<String?> getNama() async{
+  //   SharedPreferences pref = await SharedPreferences.getInstance();
+  //   return pref.getString("username");
+  // }
+
+  // void initState(){
+  //   super.initState();
+  //   autoLogIn();
+
+  // void autoLogIn() async{
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final String? userId = prefs.getString('username');
+
+  //   if (userId != null){
+  //     setState(() {
+  //       isLogin = true;
+  //       name = userId;
+  //     });
+  //     return;
+  //   }
+
+  // Future<Null> logout() async{
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('username', "");
+
+  //   setState(() {
+  //     name = '';
+  //     isLogin = false;
+  //   });
+
+  // }
+  // Future<Null> loginUser() async{
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('username', usernameController.text);
+  //   prefs.setString('password', passwordController.text);
+
+  //   setState(() {
+  //     name = usernameController.text;
+  //     password = passwordController.text;
+  //     isLogin = true;
+  //   });
+  //   usernameController.clear();
+  //   passwordController.clear();
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,21 +221,26 @@ class _LoginState extends State<Login> {
                   Container(
                       padding: EdgeInsets.fromLTRB(0, 15, 0, 30),
                       child: ElevatedButton(
+                        child: Text('login'),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blue,
                           fixedSize: Size(200, 35),
                         ),
                         onPressed: () {
-                          print(usernameController.text);
-                          print(passwordController.text);
-                          postLogin(usernameController.text, passwordController.text);
+                          saveLogin();
+                          // print(usernameController.text);
+                          // print(passwordController.text);
+                          // postLogin(
+                          //     usernameController.text, passwordController.text);
+                          
+                          
                           // if (usernameController.text == "anik" &&
                           //     passwordController.text == "anik") {
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const Utama(),
-                            //   ),
-                            // );
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const Utama(),
+                          //   ),
+                          // );
                           // } else {
                           //   AlertDialog alert = AlertDialog(
                           //     title: Text('warning'),
@@ -183,10 +262,10 @@ class _LoginState extends State<Login> {
                           //     },
                           //   );
 
-                            // Text('maaf data yang anda masukan salah');
-                        //   }
-                        },
-                        child: Text('login'),
+                          // Text('maaf data yang anda masukan salah');
+                          //   }
+                          }
+                        
                       )),
                   Container(
                     child: Row(
@@ -217,7 +296,10 @@ class _LoginState extends State<Login> {
         );
   }
 }
-postLogin(String username, String password) async {
-  ListUsersService _service = ListUsersService();
-  await _service.postLogin(username, password);
-}
+
+ 
+
+// postLogin(String username, String password) async {
+//   ListUsersService _service = ListUsersService();
+//   await _service.postLogin(username, password);
+// }

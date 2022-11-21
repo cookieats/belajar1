@@ -58,8 +58,9 @@ class _MutasiState extends State<Mutasi> {
           ),
         ),
       ),
-      
-    );
+    floatingActionButton: FloatingActionButton(onPressed: (){},
+    child: Icon(Icons.add),
+    ));
   }
   Widget cardlist(
     String title, String subtitle, Color color, String nilai, Color bgColor) {

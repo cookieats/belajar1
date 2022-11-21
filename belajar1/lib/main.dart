@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
        title: 'Bank Undiksha',
       theme: ThemeData.light(),
-      home: Utama(),
+      home: Login(),
     );
   }
 }

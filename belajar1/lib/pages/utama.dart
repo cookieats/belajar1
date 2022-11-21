@@ -1,11 +1,26 @@
 import 'package:belajar1/pages/grid.dart';
 import 'package:belajar1/pages/grid2.dart';
+import 'package:belajar1/pages/mutasi.dart';
 import 'package:belajar1/pages/transfer.dart';
 import 'package:flutter/material.dart';
 import 'package:belajar1/widget/menu.dart';
+import 'package:belajar1/pages/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Utama extends StatelessWidget {
-  const Utama({Key? key}) : super(key: key);
+final usernameController = TextEditingController();
+final passwordController = TextEditingController();
+
+class Utama extends StatefulWidget {
+  String? name;
+  Utama({Key? key, this.name}) : super(key: key);
+
+  @override
+  State<Utama> createState() => _UtamaState();
+}
+
+class _UtamaState extends State<Utama> {
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +97,7 @@ class Utama extends StatelessWidget {
                             'Nasabah',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text('Ni Wayan Anik Puspita Sari')
+                          Text("${widget.name}")
                         ],
                       ),
                     ),
@@ -167,7 +182,14 @@ class Utama extends StatelessWidget {
                     );
                 },),
                 Menu(icon: Icons.monetization_on_outlined, text: "Pinjaman", onTap: (){},),
-                Menu(icon: Icons.add_chart, text: "Mutasi", onTap: (){},),
+                Menu(icon: Icons.add_chart, text: "Mutasi", onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => Mutasi(),
+                      )
+                    );
+                },),
               ],
             ),
           ),
@@ -250,3 +272,7 @@ class Utama extends StatelessWidget {
     );
   }
 }
+
+
+  
+  

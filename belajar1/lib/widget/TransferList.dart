@@ -22,7 +22,7 @@ class TransferList extends StatelessWidget {
           children:[
             SlidableAction(onPressed: deleteFunction,
             icon: Icons.delete, backgroundColor: Colors.red,
-            borderRadius: BorderRadius.circular(12))
+            borderRadius: BorderRadius.circular(8))
           ]
         ),
         child: Container(
@@ -36,7 +36,8 @@ class TransferList extends StatelessWidget {
             children: [
               Icon(Icons.check_circle_outline, color: Colors.green,),
               Text(namaBarang),
-              Text(hargaBarang)],
+              Text(hargaBarang),
+            ]
           ),
         ),
       ),
