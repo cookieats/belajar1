@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.belajar1">
+    <uses-permission android:name="android.permission.CAMERA" />
    <application
         android:label="belajar1"
         android:name="${applicationName}"

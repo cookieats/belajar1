@@ -5,10 +5,14 @@ import 'package:belajar1/pages/transfer.dart';
 import 'package:flutter/material.dart';
 import 'package:belajar1/widget/menu.dart';
 import 'package:belajar1/pages/login.dart';
+import 'package:belajar1/pages/qr_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-final usernameController = TextEditingController();
-final passwordController = TextEditingController();
+// final usernameController = TextEditingController();
+// final passwordController = TextEditingController();
 
 class Utama extends StatefulWidget {
   String? name;
@@ -19,13 +23,68 @@ class Utama extends StatefulWidget {
 }
 
 class _UtamaState extends State<Utama> {
-
-  
+  String _scanBarcode = '';
 
   @override
   Widget build(BuildContext context) {
+Future<void> _launchUrl() async {
+    final Uri _url = Uri.parse(_scanBarcode);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
+     AlertDialog alert = AlertDialog(
+        title: Text('URL'),
+        content: Text(
+            "site:"+_scanBarcode.toString(),
+          ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+            print(_scanBarcode);
+                              _launchUrl();
+                              },
+              // onPressed: () {
+              //   Navigator.of(context)
+              //       .pop(); // dismiss dialog
+              // },
+              child: Text('visit link'))
+        ],
+    );
+
+    Future<void> scanQR() async {
+    String barcodeScanRes;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.QR);
+      showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return alert;
+                              },
+                            );
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
+  }
+
+  
+
+
+
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 2, 14, 147),
         title: Center(
@@ -229,6 +288,30 @@ class _UtamaState extends State<Utama> {
               ],
             ),
           ),
+          // _scanBarcode == ''
+          //           ? const Text(
+          //               'Scan a code',
+          //               style: TextStyle(fontSize: 20),
+          //             )
+          //           : Column(
+          //               children: [
+          //                 const SizedBox(
+          //                   height: 20,
+          //                 ),
+          //                 Text(_scanBarcode,
+          //                     style: const TextStyle(fontSize: 20)),
+          //                 ElevatedButton(
+          //                     onPressed: () async {
+          //                       _launchUrl();
+          //                     },
+          //                     child: const Text("Visit link")),
+          //               ],
+          //             ),
+          //       Text(
+          //           _scanBarcode == ''
+          //               ? 'Scan result'
+          //               : 'Scan result' + _scanBarcode,
+          //           style: TextStyle(fontSize: 20))
         ]),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -256,11 +339,14 @@ class _UtamaState extends State<Utama> {
       ],
       
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton.large(
         
         onPressed: () {
+            scanQR();
           // Add your onPressed code here!
           print("halo");
+          
         },
 
         backgroundColor: Color.fromARGB(255, 22, 6, 88),

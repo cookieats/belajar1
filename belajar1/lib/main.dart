@@ -1,5 +1,6 @@
 import 'package:belajar1/pages/grid.dart';
 import 'package:belajar1/pages/login.dart';
+import 'package:belajar1/pages/qr_screen.dart';
 import 'package:belajar1/pages/transfer.dart';
 import 'package:belajar1/pages/utama.dart';
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
     Login(),
     Utama(),
     Transfer(),
+    QrScanner(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
        title: 'Bank Undiksha',
       theme: ThemeData.light(),
-      home: Login(),
+      home: Utama(),
     );
   }
 }
