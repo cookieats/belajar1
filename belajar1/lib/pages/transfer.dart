@@ -1,89 +1,64 @@
 
-import 'package:belajar1/data/database.dart';
-import 'package:belajar1/widget/TransferList.dart';
-import 'package:belajar1/widget/dialog_box.dart';
+import 'package:belajar1/Model/list_user.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+
+import '../service/list_user_service.dart';
 
 class Transfer extends StatefulWidget {
-  
-
   Transfer({Key? key}) : super(key: key);
 
   @override
   State<Transfer> createState() => _TransferState();
 }
 
-
 class _TransferState extends State<Transfer> {
-  final _myBox = Hive.box('mybox');
-  TransferDatabase db = TransferDatabase();
+  List<ListUserModel> _listUser = [];
 
-  @override
-  void initState(){
-    if (_myBox.get("TRANSFER") == null) {
-      db.createInitialData();
-    } else {
-      // there already exists data
-      db.loadData();
-    }
-    super.initState();
-  }
-
-  final _rekController = TextEditingController();
-  final _hargaController = TextEditingController();
-
-
-void simpanRiwayat(){
-  setState(() {
+  getUser()async{
+    ListUsersService _service = ListUsersService();
+    await _service.getDataUsers().then((value) {
+      setState(() {
+        _listUser = value!;
+      });
+    });
     
-    db.transfer.add([_rekController.text, _hargaController.text]);
-    _rekController.clear();
-    _hargaController.clear();
-  });
-  Navigator.of(context).pop();
-  db.updateDataBase();
-}
-void newTransfer(){
-   showDialog(context: context,
-    builder: (context){
-      return Dialog_box(
-        rekController: _rekController,
-        hargaController: _hargaController,
-        onSimpan: simpanRiwayat,
-        onCancel: () => Navigator.of(context).pop(),
-      );
-   }
-   );
-}
-void deleteRiwayat(int index){
-  setState(() {
-    db.transfer.removeAt(index);
-  });
-  db.updateDataBase();
-}
-
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUser();
+  }
   @override
   Widget build(BuildContext context) {
+    // print(_listUser);
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text("Transfer"),
-        )
+        title: const Text('List User'),
       ),
-      body: ListView.builder(
-        itemCount: db.transfer.length,
-        itemBuilder: (context, index){
-          return TransferList(
-            namaBarang: db.transfer[index][0], 
-            hargaBarang: db.transfer[index][1],
-            deleteFunction: (context) => deleteRiwayat(index),
+      body: Center(
+        child: ListView.builder(
+          itemCount: _listUser.length,
+          itemBuilder: (context, index) {
+            ListUserModel data = _listUser[index];
+            print(data.nama);
+            return ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://reqres.in/img/faces/${data.user_id!}-image.jpg'),
+              ),
+              title: Text(data.nama!),
+              subtitle: Text(data.username!),
+              trailing: Text(data.user_id!.toString()),
+              onTap: () {
+                Navigator.pushNamed(context, '/transfer',
+                    arguments: data.user_id);
+              },
             );
-        }
-        
+          },
+        ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: newTransfer,
-      child: Icon(Icons.add),),
+
     );
   }
 }

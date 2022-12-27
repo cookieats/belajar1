@@ -1,6 +1,6 @@
 import 'package:belajar1/pages/grid.dart';
 import 'package:belajar1/pages/grid2.dart';
-import 'package:belajar1/pages/mutasi.dart';
+
 import 'package:belajar1/pages/transfer.dart';
 import 'package:flutter/material.dart';
 import 'package:belajar1/widget/menu.dart';
@@ -10,6 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../Model/list_user.dart';
 
 // final usernameController = TextEditingController();
 // final passwordController = TextEditingController();
@@ -78,10 +80,14 @@ Future<void> _launchUrl() async {
       _scanBarcode = barcodeScanRes;
     });
   }
+  var user = ModalRoute.of(context)!.settings.arguments;
 
-  
+    // Ubah data yang di dapat dari json ke model
+    ListUserModel myUser = user as ListUserModel;
 
-
+    if (myUser.nama == null) {
+      Navigator.pushReplacementNamed(context, '/login');
+    }
 
     return Scaffold(
       
@@ -156,7 +162,7 @@ Future<void> _launchUrl() async {
                             'Nasabah',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text("${widget.name}")
+                          Text(myUser.nama!)
                         ],
                       ),
                     ),
@@ -176,7 +182,7 @@ Future<void> _launchUrl() async {
                             'Saldo',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text('Rp.1.000.000,00')
+                          Text('${myUser.saldo!}')
                         ],
                       ),
                     )
@@ -220,16 +226,13 @@ Future<void> _launchUrl() async {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                      builder: (context) => Transfer()
+                      builder: (context) => Transfer(),
                       )
                     );
+                      
                                 },),
-                Menu(icon: Icons.savings, text: "Deposito", onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                      builder: (context) => grid(),
-                      )
+                Menu(icon: Icons.savings, text: "Penarikan", onTap: (){
+                  Navigator.pushNamed(context, '/transfer',
                     );
                 },),
                 Menu(icon: Icons.credit_card_outlined, text: "Payment", onTap: (){
@@ -242,12 +245,7 @@ Future<void> _launchUrl() async {
                 },),
                 Menu(icon: Icons.monetization_on_outlined, text: "Pinjaman", onTap: (){},),
                 Menu(icon: Icons.add_chart, text: "Mutasi", onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                      builder: (context) => Mutasi(),
-                      )
-                    );
+                 
                 },),
               ],
             ),

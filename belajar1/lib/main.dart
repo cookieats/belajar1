@@ -1,7 +1,11 @@
+import 'package:belajar1/pages/Register.dart';
 import 'package:belajar1/pages/grid.dart';
 import 'package:belajar1/pages/login.dart';
+import 'package:belajar1/pages/penarikan.dart';
 import 'package:belajar1/pages/qr_screen.dart';
+
 import 'package:belajar1/pages/transfer.dart';
+import 'package:belajar1/pages/transferTiles.dart';
 import 'package:belajar1/pages/utama.dart';
 
 import 'package:flutter/material.dart';
@@ -45,8 +49,19 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
        title: 'Bank Undiksha',
       theme: ThemeData.light(),
-      home: Utama(),
+      // home: Register(),
+      routes: {
+        '/': (context) => const Login(),
+        '/register': (context) => Register(),
+        '/utama': (context) =>  Utama(),
+        '/transfer': (context) => TransferTile(),
+        
+
+        '/tarik': (context) => Penarikan(),
+      },
+      initialRoute: '/',
     );
+    
   }
 }
 

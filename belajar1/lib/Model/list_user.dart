@@ -1,31 +1,30 @@
 class ListUserModel {
     ListUserModel({
-        this.id,
-        this.email,
-        this.firstName,
-        this.lastName,
-        this.avatar,
+        this.user_id,
+        this.username,
+        this.nama,
+        this.saldo
+        
     });
 
-    int? id;
-    String? email;
-    String? firstName;
-    String? lastName;
-    String? avatar;
-
+    int? user_id;
+    String? username;
+    String? nama;
+    double? saldo;
+   
     factory ListUserModel.fromJson(Map<String, dynamic> json) => ListUserModel(
-        id: json["id"],
-        email: json["email"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        avatar: json["avatar"],
+        user_id: int.parse(json["user_id"]),
+        username: json["username"],
+        nama: json["nama"],
+        saldo: double.parse(json["saldo"]),
+        
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
-        "email": email,
-        "first_name": firstName,
-        "last_name": lastName,
-        "avatar": avatar,
+        "id": user_id,
+        "username": username,
+        "nama": nama,
+        "saldo": saldo,
+        
     };
 }

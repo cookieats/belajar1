@@ -6,6 +6,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_value.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Model/list_user.dart';
 import '../service/list_user_service.dart';
 
 class Login extends StatefulWidget {
@@ -18,7 +19,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-
+  final _services = ListUsersService();
   // bool isLogin = false;
   // String? name ;
   // String? password ;
@@ -227,11 +228,34 @@ class _LoginState extends State<Login> {
                           fixedSize: Size(200, 35),
                         ),
                         onPressed: () {
-                          saveLogin();
-                          print(usernameController.text);
-                          print(passwordController.text);
-                          postLogin(
-                              usernameController.text, passwordController.text);
+                          Future<ListUserModel?> result = _services.loginUsers(
+                      email: usernameController.text,
+                      password: passwordController.text,
+                    );
+
+                    // print(result);
+
+                    result.then((value) {
+                      if (value != null) {
+                        // kalau berhasil login
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/utama', (route) => false,
+                            arguments: value);
+                      } else {
+                        // kalau gagal login
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Username atau Password salah'),
+                          ),
+                        );
+                      }
+                    });
+                  },
+                          // saveLogin();
+                          // print(usernameController.text);
+                          // print(passwordController.text);
+                          // postLogin(
+                          //     usernameController.text, passwordController.text);
                           
                           
                           // if (usernameController.text == "anik" &&
@@ -264,7 +288,8 @@ class _LoginState extends State<Login> {
 
                           // Text('maaf data yang anda masukan salah');
                           //   }
-                          }
+                         
+                          
                         
                       )),
                   Container(
@@ -285,21 +310,21 @@ class _LoginState extends State<Login> {
               ),
             ],
           ),
+        ),
+        bottomNavigationBar: Container(
+          height: 47,
+          width: 500,
+          color: Colors.grey,
+          alignment: Alignment.center,
+          child: Text('copyright @2022 by undiksha'),
         )
-        // bottomNavigationBar: Container(
-        //   height: 47,
-        //   width: 500,
-        //   color: Colors.grey,
-        //   alignment: Alignment.center,
-        //   child: Text('copyright @2022 by undiksha'),
-        // )
         );
   }
 }
 
  
 
-postLogin(String username, String password) async {
-  ListUsersService _service = ListUsersService();
-  await _service.postLogin(username, password);
-}
+// postLogin(String username, String password) async {
+//   ListUsersService _service = ListUsersService();
+//   await _service.postLogin(username, password);
+// }
